@@ -1,0 +1,10 @@
+prefix = "${prefix}"
+aws_region = "${aws_region}"
+
+vpc1 = "${vpc1}"
+vpc1_subnet_ids = ${vpc1_subnet_ids}
+vpc1_external_rt = "${vpc1_external_rt}"
+
+vpc2 = "${vpc2}"
+vpc2_subnet_ids = ${vpc2_subnet_ids}
+vpc2_external_rt = "${vpc2_external_rt}"
