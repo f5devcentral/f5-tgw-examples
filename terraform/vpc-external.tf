@@ -80,6 +80,28 @@ resource "aws_subnet" "f5-external-internal-2" {
   }
 }
 
+resource "aws_subnet" "f5-external-internal-3" {
+  vpc_id                  = "${aws_vpc.f5-external-vpc.id}"
+  cidr_block              = "10.1.7.0/24"
+  map_public_ip_on_launch = "true"
+  availability_zone       = "${var.aws_region}${var.az1}"
+
+  tags = {
+    Name = "${var.prefix}-f5-external-internal-3"
+  }
+}
+
+resource "aws_subnet" "f5-external-internal-4" {
+  vpc_id                  = "${aws_vpc.f5-external-vpc.id}"
+  cidr_block              = "10.1.8.0/24"
+  map_public_ip_on_launch = "false"
+  availability_zone       = "${var.aws_region}${var.az2}"
+
+  tags = {
+    Name = "${var.prefix}-f5-external-internal-4"
+  }
+}
+
 
 
 resource "aws_internet_gateway" "f5-external-vpc-gw" {
@@ -127,6 +149,24 @@ resource "aws_route_table_association" "f5-external-external-1" {
 resource "aws_route_table_association" "f5-external-external-2" {
   subnet_id      = aws_subnet.f5-external-external-2.id
   route_table_id = aws_route_table.f5-external-vpc-external-rt.id
+}
+
+resource "aws_route_table" "f5-external-vpc-internal-rt" {
+  vpc_id = "${aws_vpc.f5-external-vpc.id}"
+
+  tags = {
+    Name = "${var.prefix}-f5-external-internal-rt"
+  }
+}
+
+resource "aws_route_table_association" "f5-external-internal-1" {
+  subnet_id      = aws_subnet.f5-external-internal-1.id
+  route_table_id = aws_route_table.f5-external-vpc-internal-rt.id
+}
+
+resource "aws_route_table_association" "f5-external-internal-2" {
+  subnet_id      = aws_subnet.f5-external-internal-2.id
+  route_table_id = aws_route_table.f5-external-vpc-internal-rt.id
 }
 
 
