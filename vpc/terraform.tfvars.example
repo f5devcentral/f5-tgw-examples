@@ -1,9 +1,14 @@
 prefix = "${prefix}"
 aws_region = "${aws_region}"
 
+vpc0 = "${vpc0}"
+vpc0_subnet_ids = ${vpc0_subnet_ids}
+vpc0_external_rt = "${vpc0_external_rt}"
+
 vpc1 = "${vpc1}"
 vpc1_subnet_ids = ${vpc1_subnet_ids}
 vpc1_external_rt = "${vpc1_external_rt}"
+vpc1_internal_rt = "${vpc1_internal_rt}"
 
 vpc2 = "${vpc2}"
 vpc2_subnet_ids = ${vpc2_subnet_ids}
