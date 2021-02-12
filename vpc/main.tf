@@ -35,6 +35,19 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "vpc2" {
    transit_gateway_id = aws_ec2_transit_gateway.tgw.id
  }
 
+ resource "aws_ec2_transit_gateway_route" "client_to_workload" {
+  destination_cidr_block = "10.2.0.0/16"
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.vpc1.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.client.id
+}
+
+ resource "aws_ec2_transit_gateway_route" "workload_to_client" {
+  destination_cidr_block = "10.0.0.0/16"
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.vpc2.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.client.id
+}
+
+
 resource "aws_ec2_transit_gateway_route_table_propagation" "client_to_peer" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.vpc0.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.client.id
@@ -77,15 +90,15 @@ resource "aws_route" "vpc0-external-route" {
   transit_gateway_id = aws_ec2_transit_gateway.tgw.id
 }
 
-resource "aws_route" "vpc1-external-route" {
-  route_table_id            = var.vpc1_external_rt
+resource "aws_route" "vpc1-internal-route" {
+  route_table_id            = var.vpc1_internal_rt
   destination_cidr_block    = "10.0.0.0/8"
   transit_gateway_id = aws_ec2_transit_gateway.tgw.id
 }
 
-resource "aws_route" "vpc1-internal-route" {
-  route_table_id            = var.vpc1_internal_rt
-  destination_cidr_block    = "10.2.0.0/16"
+resource "aws_route" "vpc1-internal2-route" {
+  route_table_id            = var.vpc1_internal2_rt
+  destination_cidr_block    = "10.0.0.0/8"
   transit_gateway_id = aws_ec2_transit_gateway.tgw.id
 }
 

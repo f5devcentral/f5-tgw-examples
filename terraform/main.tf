@@ -10,7 +10,8 @@ data "template_file" "vpc_tfvars" {
     vpc2             = aws_vpc.f5-internal-vpc.id
     vpc2_subnet_ids  = "[\"${aws_subnet.f5-internal-internal-1.id}\",\"${aws_subnet.f5-internal-internal-2.id}\"]"
     vpc0_external_rt = aws_route_table.f5-client-vpc-external-rt.id    
-    vpc1_external_rt = aws_route_table.f5-external-vpc-external-rt.id
+    vpc1_internal_rt = aws_route_table.f5-external-vpc-internal-rt.id
+    vpc1_internal2_rt = aws_route_table.f5-external-vpc-internal2-rt.id    
     vpc2_external_rt = aws_route_table.f5-internal-vpc-external-rt.id
     vpc1_internal_rt = aws_route_table.f5-external-vpc-internal-rt.id
   }

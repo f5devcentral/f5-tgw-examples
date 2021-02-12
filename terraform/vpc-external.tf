@@ -131,6 +131,14 @@ resource "aws_route" "external-gateway" {
   depends_on             = [aws_route_table.f5-external-vpc-external-rt]
 }
 
+# resource "aws_route" "external-gateway-internal" {
+#   route_table_id         = aws_route_table.f5-external-vpc-internal-rt.id
+#   destination_cidr_block = "0.0.0.0/0"
+#   gateway_id             = "${aws_internet_gateway.f5-external-vpc-gw.id}"
+#   depends_on             = [aws_route_table.f5-external-vpc-external-rt]
+# }
+
+
 resource "aws_route_table_association" "f5-external-management-1" {
   subnet_id      = aws_subnet.f5-external-management-1.id
   route_table_id = aws_route_table.f5-external-vpc-external-rt.id
@@ -151,6 +159,11 @@ resource "aws_route_table_association" "f5-external-external-2" {
   route_table_id = aws_route_table.f5-external-vpc-external-rt.id
 }
 
+#resource "aws_route_table_association" "f5-external-internal-1b" {
+#  subnet_id      = aws_subnet.f5-external-internal-1.id
+#  route_table_id = aws_route_table.f5-external-vpc-external-rt.id
+#}
+
 resource "aws_route_table" "f5-external-vpc-internal-rt" {
   vpc_id = "${aws_vpc.f5-external-vpc.id}"
 
@@ -167,6 +180,24 @@ resource "aws_route_table_association" "f5-external-internal-1" {
 resource "aws_route_table_association" "f5-external-internal-2" {
   subnet_id      = aws_subnet.f5-external-internal-2.id
   route_table_id = aws_route_table.f5-external-vpc-internal-rt.id
+}
+
+resource "aws_route_table" "f5-external-vpc-internal2-rt" {
+  vpc_id = "${aws_vpc.f5-external-vpc.id}"
+
+  tags = {
+    Name = "${var.prefix}-f5-external-internal2-rt"
+  }
+}
+
+resource "aws_route_table_association" "f5-external-internal2-1" {
+  subnet_id      = aws_subnet.f5-external-internal-3.id
+  route_table_id = aws_route_table.f5-external-vpc-internal2-rt.id
+}
+
+resource "aws_route_table_association" "f5-external-internal2-2" {
+  subnet_id      = aws_subnet.f5-external-internal-4.id
+  route_table_id = aws_route_table.f5-external-vpc-internal2-rt.id
 }
 
 
