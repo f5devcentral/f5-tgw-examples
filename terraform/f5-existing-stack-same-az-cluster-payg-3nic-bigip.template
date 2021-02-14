@@ -3084,13 +3084,23 @@
     "GroupDescription": "Public or external interface rules",
     "SecurityGroupIngress": [
      {
-      "CidrIp": {
-        "10.0.0.0/8"
-      },
-      "FromPort": "-1",
-      "IpProtocol": "-1",
-      "ToPort": "-1"
-     },    
+      "CidrIp": "10.0.0.0/8",      
+      "FromPort": 0,
+      "IpProtocol": "tcp",
+      "ToPort": 65535
+     },
+     {
+      "CidrIp": "10.0.0.0/8",      
+      "FromPort": 0,
+      "IpProtocol": "udp",
+      "ToPort": 65535
+     },     
+     {
+      "CidrIp": "10.0.0.0/8",
+      "FromPort": 8,
+      "IpProtocol": "icmp",
+      "ToPort": 0
+     },         
      {
       "CidrIp": {
        "Ref": "restrictedSrcAddressApp"
