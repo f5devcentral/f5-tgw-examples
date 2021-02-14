@@ -3298,6 +3298,18 @@
    },
    "Type": "AWS::EC2::SecurityGroup"
   },
+  "allInternal": {
+   "Properties": {
+   "FromPort": 0,
+   "GroupId": {
+    "Ref": "bigipInternalSecurityGroup"
+   },
+  "IpProtocol": "-1",
+   "CidrIp": "10.0.0.0/8",
+   "ToPort": 0
+   },
+   "Type": "AWS::EC2::SecurityGroupIngress"
+  },
   "bigipSecurityGroupIngressConfigSync": {
    "Properties": {
     "FromPort": "4353",

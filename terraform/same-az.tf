@@ -7,7 +7,7 @@ resource "aws_s3_bucket_object" "custom_cft" {
   source = "f5-existing-stack-same-az-cluster-payg-3nic-bigip.template"
 }
 resource "aws_cloudformation_stack" "same-az"  {
-  name = "${var.prefix}-same-az-stack-external"
+  name = "${var.prefix}-same-az-external-stack"
   capabilities = ["CAPABILITY_IAM"]
   parameters = { 
 	Vpc = aws_vpc.f5-external-vpc.id
@@ -46,14 +46,14 @@ resource "aws_cloudformation_stack" "same-az"  {
 #   network_interface_id = aws_cloudformation_stack.same-az.outputs.Bigip1subnet1Az1Interface
 # }
 
- resource "aws_route" "internal_bigip_route2" {
-   route_table_id         = aws_route_table.f5-external-vpc-internal-rt.id
-   destination_cidr_block = "10.2.0.0/16"
-   network_interface_id = aws_cloudformation_stack.same-az.outputs.Bigip1subnet1Az1Interface
- }
+ # resource "aws_route" "internal_bigip_route2" {
+ #   route_table_id         = aws_route_table.f5-external-vpc-internal-rt.id
+ #   destination_cidr_block = "10.2.0.0/16"
+ #   network_interface_id = aws_cloudformation_stack.same-az.outputs.Bigip1subnet1Az1Interface
+ # }
 
- resource "aws_route" "external_bigip_route" {
-   route_table_id         = aws_route_table.f5-external-vpc-external-rt.id
-   destination_cidr_block = "10.0.0.0/16"
-   network_interface_id = aws_cloudformation_stack.same-az.outputs.Bigip1subnet1Az1Interface
- }
+ # resource "aws_route" "external_bigip_route" {
+ #   route_table_id         = aws_route_table.f5-external-vpc-external-rt.id
+ #   destination_cidr_block = "10.0.0.0/16"
+ #   network_interface_id = aws_cloudformation_stack.same-az.outputs.Bigip1subnet1Az1Interface
+ # }

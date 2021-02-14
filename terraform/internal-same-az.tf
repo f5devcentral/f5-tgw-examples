@@ -1,5 +1,5 @@
 resource "aws_cloudformation_stack" "internal-same-az"  {
-  name = "${var.prefix}-internal-same-az-stack"
+  name = "${var.prefix}-same-az-internal-stack"
   capabilities = ["CAPABILITY_IAM"]
   parameters = { 
 	Vpc = aws_vpc.f5-external-vpc.id
@@ -29,20 +29,21 @@ resource "aws_cloudformation_stack" "internal-same-az"  {
 #  template_body = file("${path.module}/f5-existing-stack-across-az-cluster-payg-3nic-bigip.template")
 }
 
-# resource "aws_route" "external_bigip_route" {
-#   route_table_id         = aws_route_table.f5-external-vpc-external-rt.id
-#   destination_cidr_block = "10.0.0.0/16"
-#   network_interface_id = aws_cloudformation_stack.internal-same-az.outputs.Bigip1subnet1Az1Interface
-# }
+ # resource "aws_route" "external_bigip_route" {
+ #   route_table_id         = aws_route_table.f5-external-vpc-external-rt.id
+ #   destination_cidr_block = "10.0.0.0/8"
+ #   network_interface_id = aws_cloudformation_stack.internal-same-az.outputs.Bigip1InternalInterface
+ # }
 
-resource "aws_route" "external_bigip_route2" {
-  route_table_id         = aws_route_table.f5-external-vpc-external-rt.id
-  destination_cidr_block = "10.2.0.0/16"
-  network_interface_id = aws_cloudformation_stack.internal-same-az.outputs.Bigip1subnet1Az1Interface
-}
+# resource "aws_route" "external_bigip_route2" {
+#   route_table_id         = aws_route_table.f5-external-vpc-external-rt.id
+#   destination_cidr_block = "10.2.0.0/16"
+#   network_interface_id = aws_cloudformation_stack.internal-same-az.outputs.Bigip1InternalInterfacee
+# }
 
 resource "aws_route" "internal_bigip_route" {
   route_table_id         = aws_route_table.f5-external-vpc-internal-rt.id
-  destination_cidr_block = "10.0.0.0/16"
-  network_interface_id = aws_cloudformation_stack.internal-same-az.outputs.Bigip1InternalInterface
+  destination_cidr_block = "10.0.0.0/8"
+   network_interface_id = aws_cloudformation_stack.internal-same-az.outputs.Bigip1InternalInterface  
+#  network_interface_id = aws_cloudformation_stack.internal-same-az.outputs.Bigip1subnet1Az1Interface
 }
