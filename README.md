@@ -125,9 +125,9 @@ The FW devices egresses the traffic to the BIG-IP device on the subnet 10.1.3.0/
 
 The BIG-IP receives the traffic from the FW on its external interface (direct communication from the FW ENI to the BIG-IP ENI) and forwards the traffic to the 10.1.7.0/24 subnet that has a route that forwards the traffic to the Workload VPC via Transit Gateway.
 
-The return traffic from the Worload VPC goes back to the 10.1.5.0/24 subnet of the Inspection VPC and forwarded to the interal interface of the BIG-IP on 10.1.7.0/24.
+The return traffic from the Workload VPC goes back to the 10.1.5.0/24 subnet of the Inspection VPC and forwarded to the internal interface of the BIG-IP on 10.1.7.0/24.
 
-Since the return traffic originates from the same interface that the BIG-IP sent the traffic to the Worload VPC it makes use of its connection table to return the traffic to the Firewall device that originally sent the traffic.  This is accomplished by making use of the Auto Lasthop feature of the BIG-IP.  This is possible because the BIG-IP and Firewall devices are located on the same subnet.
+Since the return traffic originates from the same interface that the BIG-IP sent the traffic to the Workload VPC it makes use of its connection table to return the traffic to the Firewall device that originally sent the traffic.  This is accomplished by making use of the Auto Lasthop feature of the BIG-IP.  This is possible because the BIG-IP and Firewall devices are located on the same subnet.
 
 ## Further Work
 
