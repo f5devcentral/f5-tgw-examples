@@ -2,6 +2,10 @@
 
 This is an example of using a BIG-IP to create a FW sandwich in an inspection VPC.
 
+In this example a BIG-IP is load balancing multiple FW devices in an A/A deployment.  The FW devices are configured to transparently inspect traffic.  The BIG-IP is configured to preserve the source and destination IP addresses as it passes through the inspection VPC.
+
+This solution may be helpful in situations where you are unable to use a Gateway Load Balancer (lack of GENEVE support of network device).  This does not require any overlay networking.  The one requirement is that the FW devices are configured with a static route to the BIG-IP devices.
+
 This is based on the following blog post: https://aws.amazon.com/blogs/architecture/field-notes-working-with-route-tables-in-aws-transit-gateway/
 
 ## Topology
@@ -49,6 +53,7 @@ create /ltm virtual to_fw_vs destination 10.0.0.0:0 ip-protocol any pool fw_pool
 create /ltm virtual to_tgw_vs destination 10.0.0.0:0 ip-protocol any pool tgw_pool translate-address disabled translate-port disabled mask 255.0.0.0  profiles replace-all-with  { fastL4 } vlans replace-all-with { external } vlans-enabled
 ```
 
+You will also want to verify that the "bigip1" device is the "active" device.  This is currently not fully setup for HA (see Further Work below).
 ## Demo
 
 Login via the Public IP to the "Client" host.  From there run the command:
@@ -121,6 +126,10 @@ The BIG-IP receives the traffic from the FW on its external interface (direct co
 The return traffic from the Worload VPC goes back to the 10.1.5.0/24 subnet of the Inspection VPC and forwarded to the interal interface of the BIG-IP on 10.1.7.0/24.
 
 Since the return traffic originates from the same interface that the BIG-IP sent the traffic to the Worload VPC it makes use of its connection table to return the traffic to the Firewall device that originally sent the traffic.  This is accomplished by making use of the Auto Lasthop feature of the BIG-IP.  This is possible because the BIG-IP and Firewall devices are located on the same subnet.
+
+## Further Work
+
+Currently this deploys a BIG-IP pair in a single AZ.  For a production deployment you would want to deploy an additional pair of devices in a separate AZ and allow Transit Gateway to distribute traffic from each AZ to the devices.  Failover has also not been fully configured to trigger an update of the Route Table entries (currently assumes that "bigip1" is the active device.
 
 ## Support
 For support, please open a GitHub issue.  Note, the code in this repository is community supported and is not supported by F5 Networks.  For a complete list of supported projects please reference [SUPPORT.md](SUPPORT.md).
