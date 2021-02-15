@@ -8,6 +8,8 @@ This solution may be helpful in situations where you are unable to use a Gateway
 
 This is based on the following blog post: https://aws.amazon.com/blogs/architecture/field-notes-working-with-route-tables-in-aws-transit-gateway/
 
+You can also get details of a FW Sandwitch from: https://www.f5.com/services/resources/white-papers/load-balancing-101-firewall-sandwiches
+
 ## Topology
 
 There are 3 VPCs in this environment:
