@@ -12,3 +12,8 @@ variable "vpc2_external_rt" {}
 
 variable "prefix" {}
 variable "aws_region" {}
+
+variable "bigip1" {}
+variable "bigip_float" {}
+variable "bigip_username" {}
+variable "fw_ips" {}

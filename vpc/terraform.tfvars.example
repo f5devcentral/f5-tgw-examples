@@ -13,3 +13,8 @@ vpc1_internal2_rt = "${vpc1_internal2_rt}"
 vpc2 = "${vpc2}"
 vpc2_subnet_ids = ${vpc2_subnet_ids}
 vpc2_external_rt = "${vpc2_external_rt}"
+
+bigip1 = "${bigip1}"
+bigip_float = "${bigip_float}"
+bigip_username = "admin"
+fw_ips = "${fw_ips}"
