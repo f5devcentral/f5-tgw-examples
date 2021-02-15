@@ -16,8 +16,8 @@ data "aws_ami" "centos" {
 }
 
 resource "aws_network_interface" "fw-1-ext" {
-  subnet_id              = aws_subnet.f5-external-external-1.id
-  security_groups = [aws_security_group.external-vpc.id]
+  subnet_id         = aws_subnet.f5-external-external-1.id
+  security_groups   = [aws_security_group.external-vpc.id]
   source_dest_check = false
   tags = {
     Name = "${var.prefix}-firewall-1-ext"
@@ -25,8 +25,8 @@ resource "aws_network_interface" "fw-1-ext" {
 }
 
 resource "aws_network_interface" "fw-1-int" {
-  subnet_id              = aws_subnet.f5-external-internal-1.id
-  security_groups = [aws_security_group.external-vpc.id]
+  subnet_id         = aws_subnet.f5-external-internal-3.id
+  security_groups   = [aws_security_group.external-vpc.id]
   source_dest_check = false
   tags = {
     Name = "${var.prefix}-firewall-1-int"
@@ -35,22 +35,23 @@ resource "aws_network_interface" "fw-1-int" {
 
 
 resource "aws_instance" "firewall-1" {
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t2.micro"
-
-  network_interface {
-    network_interface_id = aws_network_interface.fw-1-ext.id
-    device_index         = 0
-  }
-  
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t2.micro"
 
   network_interface {
     network_interface_id = aws_network_interface.fw-1-int.id
     device_index         = 1
   }
 
-  key_name               = var.ssh_key
-  user_data              = <<-EOF
+  network_interface {
+    network_interface_id = aws_network_interface.fw-1-ext.id
+    device_index         = 0
+  }
+
+
+
+  key_name  = var.ssh_key
+  user_data = <<-EOF
 #cloud-config
 write_files:
 - content: |
@@ -61,14 +62,22 @@ write_files:
         eth1:
           dhcp4: yes
           dhcp6: no
+          dhcp4-overrides:
+            use-routes: no
+        eth0:    
+          routes:
+            - to: 10.0.0.0/16
+              via: ${aws_cloudformation_stack.same-az.outputs.Bigip1VipPrivateIp}
+            - to: 10.2.0.0/16
+              via: ${aws_cloudformation_stack.same-az.outputs.Bigip1VipPrivateIp}
   owner: root:root
   path: /etc/netplan/51-eth1.yaml
   permissions: '0644'
 runcmd:
   - echo 1 > /proc/sys/net/ipv4/ip_forward
-  - netplan apply  
+  - netplan --debug apply  
               EOF
-  
+
   tags = {
     Name = "${var.prefix}-firewall-1"
   }
@@ -77,18 +86,18 @@ runcmd:
 # fw 2
 
 resource "aws_network_interface" "fw-2-ext" {
-  subnet_id              = aws_subnet.f5-external-external-1.id
-  security_groups = [aws_security_group.external-vpc.id]
-  source_dest_check = false  
+  subnet_id         = aws_subnet.f5-external-external-1.id
+  security_groups   = [aws_security_group.external-vpc.id]
+  source_dest_check = false
   tags = {
     Name = "${var.prefix}-firewall-2-ext"
   }
 }
 
 resource "aws_network_interface" "fw-2-int" {
-  subnet_id              = aws_subnet.f5-external-internal-1.id
-  security_groups = [aws_security_group.external-vpc.id]
-  source_dest_check = false  
+  subnet_id         = aws_subnet.f5-external-internal-3.id
+  security_groups   = [aws_security_group.external-vpc.id]
+  source_dest_check = false
   tags = {
     Name = "${var.prefix}-firewall-2-int"
   }
@@ -96,21 +105,21 @@ resource "aws_network_interface" "fw-2-int" {
 
 
 resource "aws_instance" "firewall-2" {
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t2.micro"
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t2.micro"
+
+  network_interface {
+    network_interface_id = aws_network_interface.fw-2-int.id
+    device_index         = 1
+  }
 
   network_interface {
     network_interface_id = aws_network_interface.fw-2-ext.id
     device_index         = 0
   }
 
-  network_interface {
-    network_interface_id = aws_network_interface.fw-2-int.id
-    device_index         = 1
-  }
-  
-  key_name               = var.ssh_key
-  user_data              = <<-EOF
+  key_name  = var.ssh_key
+  user_data = <<-EOF
 #cloud-config
 write_files:
 - content: |
@@ -121,12 +130,20 @@ write_files:
         eth1:
           dhcp4: yes
           dhcp6: no
+          dhcp4-overrides:
+            use-routes: no
+        eth0:    
+          routes:
+            - to: 10.0.0.0/16
+              via: ${aws_cloudformation_stack.same-az.outputs.Bigip1VipPrivateIp}
+            - to: 10.2.0.0/16
+              via: ${aws_cloudformation_stack.same-az.outputs.Bigip1VipPrivateIp}	  
   owner: root:root
   path: /etc/netplan/51-eth1.yaml
   permissions: '0644'
 runcmd:
   - echo 1 > /proc/sys/net/ipv4/ip_forward
-  - netplan apply  
+  - netplan --debug apply  
               EOF
   tags = {
     Name = "${var.prefix}-firewall-2"
