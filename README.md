@@ -121,3 +121,29 @@ The BIG-IP receives the traffic from the FW on its external interface (direct co
 The return traffic from the Worload VPC goes back to the 10.1.5.0/24 subnet of the Inspection VPC and forwarded to the interal interface of the BIG-IP on 10.1.7.0/24.
 
 Since the return traffic originates from the same interface that the BIG-IP sent the traffic to the Worload VPC it makes use of its connection table to return the traffic to the Firewall device that originally sent the traffic.  This is accomplished by making use of the Auto Lasthop feature of the BIG-IP.  This is possible because the BIG-IP and Firewall devices are located on the same subnet.
+
+## Support
+For support, please open a GitHub issue.  Note, the code in this repository is community supported and is not supported by F5 Networks.  For a complete list of supported projects please reference [SUPPORT.md](SUPPORT.md).
+
+## Community Code of Conduct
+Please refer to the [F5 DevCentral Community Code of Conduct](code_of_conduct.md).
+
+
+## License
+[Apache License 2.0](LICENSE)
+
+## Copyright
+Copyright 2014-2021 F5 Networks Inc.
+
+
+### F5 Networks Contributor License Agreement
+
+Before you start contributing to any project sponsored by F5 Networks, Inc. (F5) on GitHub, you will need to sign a Contributor License Agreement (CLA).
+
+If you are signing as an individual, we recommend that you talk to your employer (if applicable) before signing the CLA since some employment agreements may have restrictions on your contributions to other projects.
+Otherwise by submitting a CLA you represent that you are legally entitled to grant the licenses recited therein.
+
+If your employer has rights to intellectual property that you create, such as your contributions, you represent that you have received permission to make contributions on behalf of that employer, that your employer has waived such rights for your contributions, or that your employer has executed a separate CLA with F5.
+
+If you are signing on behalf of a company, you represent that you are legally entitled to grant the license recited therein.
+You represent further that each employee of the entity that submits contributions is authorized to submit such contributions on behalf of the entity pursuant to the CLA.
