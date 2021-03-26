@@ -1,4 +1,17 @@
-# BIG-IP TGW FW Sandwich
+# BIG-IP TGW Examples
+
+There are two examples in this repo.
+
+1. Using Transit Gateway Connect
+2. Using a BIG-IP to create a Firewall Sandwich in TGW
+
+# TGW Connect
+
+To run a demo of TGW Connect you will first need to run terraform in the `terraform` directory.
+
+Next you will run the terraform code in the `connect` directory.  Note that this requires the AWS CLI and to be run on a Linux host.
+
+# FW Sandwich
 
 This is an example of using a BIG-IP to create a FW sandwich in an inspection VPC.
 

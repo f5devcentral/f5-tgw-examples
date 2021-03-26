@@ -15,6 +15,8 @@ vpc2_subnet_ids = ${vpc2_subnet_ids}
 vpc2_external_rt = "${vpc2_external_rt}"
 
 bigip1 = "${bigip1}"
+bigip1_self = "${bigip1_self}"
+bigip2_self = "${bigip2_self}"
 bigip_float = "${bigip_float}"
 bigip_username = "admin"
 fw_ips = "${fw_ips}"
