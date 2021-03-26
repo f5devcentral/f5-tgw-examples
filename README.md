@@ -11,6 +11,8 @@ To run a demo of TGW Connect you will first need to run terraform in the `terraf
 
 Next you will run the terraform code in the `connect` directory.  Note that this requires the AWS CLI and to be run on a Linux host.
 
+***Warning*** This demo is not complete.
+
 # FW Sandwich
 
 This is an example of using a BIG-IP to create a FW sandwich in an inspection VPC.
