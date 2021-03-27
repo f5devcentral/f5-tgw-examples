@@ -45,7 +45,7 @@ terraform apply
 ```
 
 You will see an output of the deployed devices.
-
+ 
 ```
 Outputs:
 
