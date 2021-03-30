@@ -1,0 +1,37 @@
+!
+no service password-encryption
+!
+log file zebos.log
+!
+router bgp 65520
+ max-paths ebgp 8
+ bgp graceful-restart restart-time 120
+ aggregate-address 10.2.0.0/16 summary-only
+ redistribute kernel
+ neighbor 169.254.20.2 remote-as 64512
+ neighbor 169.254.20.2 ebgp-multihop 2
+ neighbor 169.254.20.2 soft-reconfiguration inbound
+ neighbor 169.254.20.2 distribute-list 1 out
+ neighbor 169.254.20.2 route-map prepend-path out
+ neighbor 169.254.20.3 remote-as 64512
+ neighbor 169.254.20.3 ebgp-multihop 2
+ neighbor 169.254.20.3 soft-reconfiguration inbound
+ neighbor 169.254.20.3 distribute-list 1 out
+ neighbor 169.254.20.3 route-map prepend-path out
+!
+ip prefix-list mylist seq 5 permit 10.0.0.0/16 le 32
+ip prefix-list mylist seq 6 permit 10.1.0.0/16 le 32
+ip prefix-list mylist seq 7 permit 10.2.0.0/16 le 32
+ip prefix-list mylist seq 8 permit 10.3.0.0/16 le 32
+!
+route-map prepend-path permit 10
+ match ip address prefix-list mylist
+ set as-path prepend 65520
+!
+line con 0
+ login
+line vty 0 39
+ login
+!
+end
+
