@@ -20,3 +20,6 @@ bigip2_self = "${bigip2_self}"
 bigip_float = "${bigip_float}"
 bigip_username = "admin"
 fw_ips = "${fw_ips}"
+
+bigip3_self = "${bigip3_self}"
+bigip4_self = "${bigip4_self}"

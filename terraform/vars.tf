@@ -19,3 +19,27 @@ variable "ssh_key" {
 variable "trusted_ip" {
   description = "IP address of trusted source for mgmt/testing"
 }
+variable "licenseKey1" {
+  default = ""
+}
+variable "licenseKey2" {
+  default = ""
+}
+variable "licenseKey3" {
+  default = ""
+}
+variable "licenseKey4" {
+  default = ""
+}
+variable "imageName" {
+  default = "Better25Mbps"
+}
+variable "cft" {
+  default = "f5-existing-stack-same-az-cluster-payg-3nic-bigip.template"
+}
+variable "backendType" {
+  default = "t2.micro"
+}
+variable "bigipType" {
+  default = "m5.xlarge"
+}

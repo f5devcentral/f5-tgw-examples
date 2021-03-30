@@ -15,8 +15,9 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "f5-client-backend-1" {
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t2.micro"
+  ami = data.aws_ami.ubuntu.id
+  #  instance_type          = "t2.micro"
+  instance_type          = "c5n.2xlarge"
   subnet_id              = aws_subnet.f5-client-management-1.id
   private_ip             = "10.0.0.4"
   vpc_security_group_ids = [aws_security_group.client-vpc.id]
@@ -25,6 +26,8 @@ resource "aws_instance" "f5-client-backend-1" {
 #!/bin/bash
 sleep 30
 snap install docker
+apt update
+apt install iperf -y
 systemctl enable snap.docker.dockerd
 systemctl start snap.docker.dockerd
 sleep 30
@@ -48,6 +51,8 @@ resource "aws_instance" "f5-external-backend-1" {
 #!/bin/bash
 sleep 30
 snap install docker
+apt update
+apt install iperf -y
 systemctl enable snap.docker.dockerd
 systemctl start snap.docker.dockerd
 sleep 30
@@ -82,8 +87,9 @@ docker run -d -p 80:80 --net host -e F5DEMO_APP=website -e F5DEMO_NODENAME="F5 E
 }
 
 resource "aws_instance" "f5-internal-backend-1" {
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t2.micro"
+  ami = data.aws_ami.ubuntu.id
+  #  instance_type          = "t2.micro"
+  instance_type          = "c5n.2xlarge"
   subnet_id              = aws_subnet.f5-internal-external-1.id
   private_ip             = "10.2.3.4"
   vpc_security_group_ids = [aws_security_group.internal-vpc.id]

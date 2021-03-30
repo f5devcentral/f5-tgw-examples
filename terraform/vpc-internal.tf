@@ -11,7 +11,7 @@ resource "aws_vpc" "f5-internal-vpc" {
 }
 
 resource "aws_subnet" "f5-internal-management-1" {
-  vpc_id                  = "${aws_vpc.f5-internal-vpc.id}"
+  vpc_id                  = aws_vpc.f5-internal-vpc.id
   cidr_block              = "10.2.1.0/24"
   map_public_ip_on_launch = "true"
   availability_zone       = "${var.aws_region}${var.az1}"
@@ -22,7 +22,7 @@ resource "aws_subnet" "f5-internal-management-1" {
 }
 
 resource "aws_subnet" "f5-internal-management-2" {
-  vpc_id                  = "${aws_vpc.f5-internal-vpc.id}"
+  vpc_id                  = aws_vpc.f5-internal-vpc.id
   cidr_block              = "10.2.2.0/24"
   map_public_ip_on_launch = "true"
   availability_zone       = "${var.aws_region}${var.az2}"
@@ -33,7 +33,7 @@ resource "aws_subnet" "f5-internal-management-2" {
 }
 
 resource "aws_subnet" "f5-internal-external-1" {
-  vpc_id                  = "${aws_vpc.f5-internal-vpc.id}"
+  vpc_id                  = aws_vpc.f5-internal-vpc.id
   cidr_block              = "10.2.3.0/24"
   map_public_ip_on_launch = "true"
   availability_zone       = "${var.aws_region}${var.az1}"
@@ -44,7 +44,7 @@ resource "aws_subnet" "f5-internal-external-1" {
 }
 
 resource "aws_subnet" "f5-internal-external-2" {
-  vpc_id                  = "${aws_vpc.f5-internal-vpc.id}"
+  vpc_id                  = aws_vpc.f5-internal-vpc.id
   cidr_block              = "10.2.4.0/24"
   map_public_ip_on_launch = "true"
   availability_zone       = "${var.aws_region}${var.az2}"
@@ -55,7 +55,7 @@ resource "aws_subnet" "f5-internal-external-2" {
 }
 
 resource "aws_subnet" "f5-internal-internal-1" {
-  vpc_id                  = "${aws_vpc.f5-internal-vpc.id}"
+  vpc_id                  = aws_vpc.f5-internal-vpc.id
   cidr_block              = "10.2.5.0/24"
   map_public_ip_on_launch = "true"
   availability_zone       = "${var.aws_region}${var.az1}"
@@ -66,7 +66,7 @@ resource "aws_subnet" "f5-internal-internal-1" {
 }
 
 resource "aws_subnet" "f5-internal-internal-2" {
-  vpc_id                  = "${aws_vpc.f5-internal-vpc.id}"
+  vpc_id                  = aws_vpc.f5-internal-vpc.id
   cidr_block              = "10.2.6.0/24"
   map_public_ip_on_launch = "false"
   availability_zone       = "${var.aws_region}${var.az2}"
@@ -79,7 +79,7 @@ resource "aws_subnet" "f5-internal-internal-2" {
 
 
 resource "aws_internet_gateway" "f5-internal-vpc-gw" {
-  vpc_id = "${aws_vpc.f5-internal-vpc.id}"
+  vpc_id = aws_vpc.f5-internal-vpc.id
 
   tags = {
     Name = "${var.prefix}-f5-internal-igw"
@@ -87,7 +87,7 @@ resource "aws_internet_gateway" "f5-internal-vpc-gw" {
 }
 
 resource "aws_route_table" "f5-internal-vpc-external-rt" {
-  vpc_id = "${aws_vpc.f5-internal-vpc.id}"
+  vpc_id = aws_vpc.f5-internal-vpc.id
   # route {
   #   cidr_block = "0.0.0.0/0"
   #   gateway_id = "${aws_internet_gateway.f5-internal-vpc-gw.id}"
@@ -101,7 +101,7 @@ resource "aws_route_table" "f5-internal-vpc-external-rt" {
 resource "aws_route" "internal-gateway" {
   route_table_id         = aws_route_table.f5-internal-vpc-external-rt.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = "${aws_internet_gateway.f5-internal-vpc-gw.id}"
+  gateway_id             = aws_internet_gateway.f5-internal-vpc-gw.id
   depends_on             = [aws_route_table.f5-internal-vpc-external-rt]
 }
 
@@ -135,7 +135,7 @@ resource "aws_route_table_association" "f5-internal-external-2" {
 
 resource "aws_security_group" "internal-vpc" {
   name   = "${var.prefix}-f5-internal-vpc"
-  vpc_id = "${aws_vpc.f5-internal-vpc.id}"
+  vpc_id = aws_vpc.f5-internal-vpc.id
 
   ingress {
     from_port   = 0

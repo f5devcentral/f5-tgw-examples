@@ -1,5 +1,5 @@
 data "template_file" "vpc_tfvars" {
-  template = "${file("../vpc/terraform.tfvars.example")}"
+  template = file("../vpc/terraform.tfvars.example")
   vars = {
     prefix            = var.prefix
     aws_region        = var.aws_region
@@ -18,15 +18,17 @@ data "template_file" "vpc_tfvars" {
     bigip_float       = aws_cloudformation_stack.same-az.outputs.Bigip1VipPrivateIp
     bigip1_self       = aws_cloudformation_stack.same-az.outputs.Bigip1InternalInterfacePrivateIp
     bigip2_self       = aws_cloudformation_stack.same-az.outputs.Bigip2InternalInterfacePrivateIp
-    fw_ips            = "${aws_instance.firewall-1.private_ip}:0 ${aws_instance.firewall-2.private_ip}:0"
+    # bigip3_self       = aws_cloudformation_stack.same-az2.outputs.Bigip1InternalInterfacePrivateIp
+    # bigip4_self       = aws_cloudformation_stack.same-az2.outputs.Bigip2InternalInterfacePrivateIp    
+    fw_ips = "${aws_instance.firewall-1.private_ip}:0 ${aws_instance.firewall-2.private_ip}:0"
   }
 }
 resource "local_file" "vpc_tfvars" {
-  content  = "${data.template_file.vpc_tfvars.rendered}"
+  content  = data.template_file.vpc_tfvars.rendered
   filename = "../vpc/terraform.tfvars"
 }
 
 resource "local_file" "vpc_tfvars2" {
-  content  = "${data.template_file.vpc_tfvars.rendered}"
+  content  = data.template_file.vpc_tfvars.rendered
   filename = "../connect/terraform.tfvars"
 }
