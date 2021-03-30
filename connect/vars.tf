@@ -19,3 +19,6 @@ variable "bigip2_self" {}
 variable "bigip_float" {}
 variable "bigip_username" {}
 variable "fw_ips" {}
+
+variable "bigip3_self" { default = ""}
+variable "bigip4_self" { default = ""}

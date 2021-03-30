@@ -42,10 +42,16 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "vpc2" {
 
 resource "aws_ec2_transit_gateway_route_table" "client" {
   transit_gateway_id = aws_ec2_transit_gateway.tgw.id
+  tags = {
+    Name = "${var.prefix}-client-vpc"
+  }  
 }
 
 resource "aws_ec2_transit_gateway_route_table" "workload" {
   transit_gateway_id = aws_ec2_transit_gateway.tgw.id
+  tags = {
+    Name = "${var.prefix}-internal-vpc"
+  }  
 }
 
 resource "aws_ec2_transit_gateway_route_table_association" "client_to_peer" {
