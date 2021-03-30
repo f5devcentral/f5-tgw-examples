@@ -21,5 +21,6 @@ bigip_float = "${bigip_float}"
 bigip_username = "admin"
 fw_ips = "${fw_ips}"
 
-bigip3_self = "${bigip3_self}"
-bigip4_self = "${bigip4_self}"
+# uncomment / unescape to use
+# bigip3_self = "{bigip3_self}"
+# bigip4_self = "{bigip4_self}"

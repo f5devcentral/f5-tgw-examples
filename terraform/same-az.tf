@@ -28,12 +28,13 @@ resource "aws_cloudformation_stack" "same-az" {
     provisionPublicIP       = "Yes"
     restrictedSrcAddress    = var.trusted_ip
     restrictedSrcAddressApp = var.trusted_ip
-    sshKey                  = "${var.ssh_key}"
+    sshKey                  = var.ssh_key
     subnet1Az1              = aws_subnet.f5-external-external-1.id
     subnet2Az1              = aws_subnet.f5-external-internal-3.id
     timezone                = "UTC"
-    licenseKey1             = var.licenseKey1
-    licenseKey2             = var.licenseKey2
+    # uncomment to enable byol
+    # licenseKey1             = var.licenseKey1
+    # licenseKey2             = var.licenseKey2
   }
   template_url = "https://${aws_s3_bucket.tf_s3_bucket.bucket_domain_name}/f5-existing-stack-same-az-cluster-payg-3nic-bigip.template"
   depends_on   = [aws_s3_bucket_object.custom_cft]
