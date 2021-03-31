@@ -1,10 +1,6 @@
 !
 no service password-encryption
 !
-access-list 1 permit 10.0.0.0 0.0.255.255
-access-list 1 permit 10.1.0.0 0.0.255.255
-access-list 1 permit 10.2.0.0 0.0.255.255
-!
 router bgp 65520
  bgp graceful-restart restart-time 120
  aggregate-address 10.0.0.0/16 summary-only
@@ -15,18 +11,14 @@ router bgp 65520
  neighbor 169.254.10.2 remote-as 64512
  neighbor 169.254.10.2 ebgp-multihop 2
  neighbor 169.254.10.2 soft-reconfiguration inbound
- neighbor 169.254.10.2 distribute-list 1 out
- neighbor 169.254.10.2 route-map filterten out
+ neighbor 169.254.10.2 prefix-list tenlist out
  neighbor 169.254.10.3 remote-as 64512
  neighbor 169.254.10.3 ebgp-multihop 2
  neighbor 169.254.10.3 soft-reconfiguration inbound
- neighbor 169.254.10.3 distribute-list 1 out
- neighbor 169.254.10.3 route-map filterten out
+ neighbor 169.254.10.3 prefix-list tenlist out
 !
-ip prefix-list tenlist seq 5 permit 10.0.0.0/8 ge 16
-!
-route-map filterten permit 10
- match ip address prefix-list tenlist
+ip prefix-list tenlist seq 5 deny 10.254.254.0/24
+ip prefix-list tenlist seq 10 permit 10.0.0.0/8 ge 16
 !
 line con 0
  login
