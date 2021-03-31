@@ -16,8 +16,7 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "f5-client-backend-1" {
   ami = data.aws_ami.ubuntu.id
-  #  instance_type          = "t2.micro"
-  instance_type          = "c5n.2xlarge"
+  instance_type          = var.backendType
   subnet_id              = aws_subnet.f5-client-management-1.id
   private_ip             = "10.0.0.4"
   vpc_security_group_ids = [aws_security_group.client-vpc.id]
