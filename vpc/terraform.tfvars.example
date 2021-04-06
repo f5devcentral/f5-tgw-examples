@@ -22,5 +22,5 @@ bigip_username = "admin"
 fw_ips = "${fw_ips}"
 
 # uncomment / unescape to use
-# bigip3_self = "{bigip3_self}"
-# bigip4_self = "{bigip4_self}"
+bigip3_self = "${bigip3_self}"
+bigip4_self = "${bigip4_self}"

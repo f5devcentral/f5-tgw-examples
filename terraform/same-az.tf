@@ -16,7 +16,7 @@ resource "aws_cloudformation_stack" "same-az" {
     application             = "f5app"
     bigIpModules            = "ltm:nominal"
     costcenter              = "f5costcenter"
-    customImageId           = "OPTIONAL"
+    customImageId           = var.customImageId
     declarationUrl          = "none"
     environment             = "f5env"
     group                   = "f5group"
@@ -33,8 +33,8 @@ resource "aws_cloudformation_stack" "same-az" {
     subnet2Az1              = aws_subnet.f5-external-internal-3.id
     timezone                = "UTC"
     # uncomment to enable byol
-    # licenseKey1             = var.licenseKey1
-    # licenseKey2             = var.licenseKey2
+    licenseKey1 = var.licenseKey1
+    licenseKey2 = var.licenseKey2
   }
   template_url = "https://${aws_s3_bucket.tf_s3_bucket.bucket_domain_name}/f5-existing-stack-same-az-cluster-payg-3nic-bigip.template"
   depends_on   = [aws_s3_bucket_object.custom_cft]

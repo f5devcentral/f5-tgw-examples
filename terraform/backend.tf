@@ -15,7 +15,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "f5-client-backend-1" {
-  ami = data.aws_ami.ubuntu.id
+  ami                    = data.aws_ami.ubuntu.id
   instance_type          = var.backendType
   subnet_id              = aws_subnet.f5-client-management-1.id
   private_ip             = "10.0.0.4"

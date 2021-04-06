@@ -43,3 +43,6 @@ variable "backendType" {
 variable "bigipType" {
   default = "m5.xlarge"
 }
+variable "customImageId" {
+  default = "OPTIONAL"
+}
